@@ -116,6 +116,10 @@ The workflow consists of the following steps:
 ---
 
 ## 📁 Project Structure
+
+
+
+
 .
 ├── consumer/           # Node.js consumer application
 │   ├── Dockerfile
@@ -131,6 +135,10 @@ The workflow consists of the following steps:
 ├── docs/               # Documentation assets
 │   └── architecture.png
 └── README.md           # Project documentation
+
+
+
+
 
 ---
 
