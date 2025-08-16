@@ -117,20 +117,21 @@ The workflow consists of the following steps:
 
 ## 📁 Project Structure
 .
-├── consumer/           # Node.js consumer application
+├── consumer/             # Node.js consumer app
 │   ├── Dockerfile
 │   ├── index.js
 │   └── package.json
-├── k8s/                # Kubernetes manifests for EKS
+├── k8s/                  # Kubernetes manifests for EKS
 │   ├── deployment.yaml
 │   └── service.yaml
-├── terraform/          # IaC for AWS infrastructure
+├── terraform/            # IaC for AWS infrastructure
 │   ├── main.tf
 │   ├── variables.tf
 │   └── outputs.tf
-├── docs/               # Documentation assets
+├── docs/                 # Documentation assets
 │   └── architecture.png
-└── README.md           # Project documentation
+└── README.md             # Project documentation
+
 
 ---
 
