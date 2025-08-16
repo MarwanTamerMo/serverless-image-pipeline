@@ -1,6 +1,6 @@
 # 🖼️ Serverless Image Processing Pipeline with EKS Consumer
 
-This project demonstrates a **cloud-native image processing pipeline** on **AWS**, combining **serverless services (Lambda, S3, SNS, SQS)** with a **containerized consumer running on Amazon EKS**. The solution is provisioned using **Terraform** and uses **Dockerized Node.js services** for image processing.
+This project demonstrates a **cloud-native image processing pipeline** on **AWS**, combining **serverless services (Lambda, S3, SNS, SQS)** with a **containerized consumer running on Amazon EKS**. The solution is provisioned using **Terraform** and uses **Dockerized Python services** for image processing.
 
 ---
 
@@ -11,7 +11,7 @@ The workflow consists of the following steps:
 1.  **Upload** → A user uploads an image to the **Raw S3 Bucket** (`raw_bucket_name`).
 2.  **Lambda Trigger** → An S3 event triggers a lightweight Lambda function that publishes the object key to an **SNS topic**.
 3.  **Messaging Layer** → The SNS topic fans out the message to an **SQS Queue**, decoupling the system.
-4.  **EKS Consumer** → A Node.js application running as a deployment on EKS polls the SQS queue for messages.
+4.  **EKS Consumer** → A Python application running as a deployment on EKS polls the SQS queue for messages.
     -   It downloads the image from the raw bucket.
     -   It processes the image (e.g., resizes it).
     -   It uploads the resulting thumbnail to the **Thumbnail S3 Bucket** (`thumb_bucket_name`).
@@ -43,7 +43,7 @@ The workflow consists of the following steps:
 -   **Compute**: AWS Lambda, EKS Nodes
 -   **Storage**: Amazon S3
 -   **Messaging**: Amazon SNS, Amazon SQS
--   **Application**: Node.js
+-   **Application**: Python
 
 ---
 
@@ -117,7 +117,7 @@ The workflow consists of the following steps:
 
 ## 📁 Project Structure
 ```bash
-├── consumer/             # Node.js consumer app
+├── consumer/             # Python consumer app
 │   ├── Dockerfile
 │   ├── index.js
 │   └── package.json
@@ -138,7 +138,7 @@ The workflow consists of the following steps:
 ## 📜 Deliverables
 
 -   Infrastructure as Code (Terraform) for all AWS resources.
--   Dockerized Node.js consumer application.
+-   Dockerized Python consumer application.
 -   Kubernetes deployment manifests for EKS.
 -   Comprehensive documentation (this README) and an architecture diagram.
 
