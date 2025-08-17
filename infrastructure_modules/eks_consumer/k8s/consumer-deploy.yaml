@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: image-consumer
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: image-consumer }
+  template:
+    metadata:
+      labels: { app: image-consumer }
+    spec:
+      serviceAccountName: consumer-sa
+      containers:
+      - name: consumer
+        image: "609854511902.dkr.ecr.eu-central-1.amazonaws.com/sprints-consumer-ecr:latest"
+        env:
+          - name: SQS_QUEUE_URL
+            value: "https://sqs.eu-central-1.amazonaws.com/609854511902/sprints-image-queue"
+          - name: RAW_BUCKET
+            value: "raw-images-s3-sprints-bucket"
+          - name: RAW_PREFIX
+            value: "raw-images/"
+          - name: THUMB_BUCKET
+            value: "thumbnails-s3-sprints-bucket" # This must match your tfvars
+          - name: THUMB_PREFIX
+            value: "thumbnails/"
