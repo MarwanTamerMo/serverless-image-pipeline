@@ -17,7 +17,7 @@ The workflow consists of the following steps:
     -   It uploads the resulting thumbnail to the **Thumbnail S3 Bucket** (`thumb_bucket_name`).
 
 <p align="center">
-  <img src="[https://storage.googleapis.com/gemini-generations/v1/user_images/1r6kP0X3T959T06mX8_5u7665N7YgP1l65rD33oI58hNq8z0oM-k69vY0yW4r3Jm.png" width="700" alt="Architecture Diagram](https://drive.google.com/file/d/1-StLTOIgB9Ww86ggiNyreW1i3r7OQFJs/view?usp=drive_link)" />
+  <img src="./assets/architecture.gif" width="700" alt="Animated Architecture Diagram" />
 </p>
 
 ---
