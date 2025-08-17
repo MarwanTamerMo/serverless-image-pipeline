@@ -115,6 +115,72 @@ The workflow consists of the following steps:
     ```
 ---
 
+# 🔍 Verification & Troubleshooting
+Here are a few commands to help you check on the different parts of the pipeline.
+
+**Check Lambda Logs**
+Find your Lambda function's name from Terraform output and tail its logs in CloudWatch.
+
+```bash
+
+# Find lambda name
+LAMBDA_NAME=$(terraform output -raw lambda_name 2>/dev/null || echo "<lambda-name>")
+aws logs tail "/aws/lambda/${LAMBDA_NAME}" --since 5m
+```
+
+**Check Consumer Pod Logs**
+Get the pod name and view the logs to ensure it's polling the queue and processing images.
+
+```bash
+# Get pod name
+kubectl get pods -l app=image-consumer
+
+# View logs for the consumer pods
+kubectl logs -l app=image-consumer --tail=200
+```
+
+**Verify Thumbnail in S3**
+List the contents of the thumbnail bucket to see the processed output.
+
+```bash
+# Note: Terraform does not create the 'thumbnails' prefix, your app does.
+aws s3 ls s3://$(terraform output -raw thumb_bucket_name)/
+```
+
+**Check SQS Queue Metrics**
+You can check the SQS queue for the approximate number of messages waiting to be processed.
+
+```bash
+
+QUEUE_URL=$(terraform output -raw sqs_queue_url)
+aws sqs get-queue-attributes --queue-url "$QUEUE_URL" --attribute-names ApproximateNumberOfMessages
+```
+---
+
+## 🗺️ Quick Reference
+
+### Workflow Summary
+
+`terraform apply` → `build & push docker image` → `kubectl apply` → **Done!**
+
+* **Trigger**: Upload image to raw S3 bucket.
+* **Path**: S3 → Lambda → SNS → SQS → EKS Consumer Pod.
+* **Action**: Consumer reads from SQS, downloads from raw S3, processes, and uploads to thumbnail S3.
+* **Result**: A thumbnail version of the image appears in the thumbnail bucket.
+
+### Key Terraform Outputs
+
+Your Terraform deployment will provide these crucial values. You will use them to build, push, and deploy your consumer application.
+
+* `raw_bucket_name`
+* `thumb_bucket_name`
+* `sns_topic_arn`
+* `sqs_queue_url`
+* `ecr_repo_url`
+* `eks_cluster_name`
+
+---
+
 ## 📁 Project Structure
 ```bash
 ├── consumer/             # Python consumer app
